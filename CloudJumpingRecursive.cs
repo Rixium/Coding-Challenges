@@ -18,15 +18,9 @@ using System.Linq;
 class Solution {
     
     static int JumpToCloud(int currCloud, int jumpSize, int energy, int[] clouds) {
-        
         currCloud = (currCloud + jumpSize) % clouds.Length; // Set the current cloud after the jump.
-        energy--; // Negate the energy for the jump.
-        
-        if(clouds[currCloud] == 1) {
-            energy -= 2; // If the cloud is a thunder cloud, subtract 2 additional energy.
-        }
-        
-		return currCloud == 0 ? energy : JumpToCloud(currCloud, jumpSize, energy, clouds); // Return energy, or call function recursively depending on current cloud.
+        energy -= (clouds[currCloud] == 1 ? 1 : 3); // Remove energy depending on cloud type.
+		return currCloud == 0 ? energy : JumpToCloud(currCloud, jumpSize, energy, clouds); // Return energy, or call function depending on value of currCloud.
     }
 
     static void Main(String[] args) {
