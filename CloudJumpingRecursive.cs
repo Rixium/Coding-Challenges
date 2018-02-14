@@ -19,8 +19,8 @@ class Solution {
     
     static int JumpToCloud(int currCloud, int jumpSize, int energy, int[] clouds) {
         currCloud = (currCloud + jumpSize) % clouds.Length; // Set the current cloud after the jump.
-        energy -= (clouds[currCloud] == 1 ? 1 : 3); // Remove energy depending on cloud type.
-		return currCloud == 0 ? energy : JumpToCloud(currCloud, jumpSize, energy, clouds); // Return energy, or call function depending on value of currCloud.
+        energy -= clouds[currCloud] == 1 ? 3 : 1; // Negate energy depending on cloud type.
+		return currCloud == 0 ? energy : JumpToCloud(currCloud, jumpSize, energy, clouds); // Return energy, or call function recursively depending on current cloud.
     }
 
     static void Main(String[] args) {
