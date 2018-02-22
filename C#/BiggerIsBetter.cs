@@ -11,8 +11,6 @@ using System.Linq;
 class Solution {
 
     static string biggerIsGreater(string w) {
-        if(w.Length == 0) return "no answer";
-        
         // Starting from the final character.
         int i = w.Length - 1;
         
