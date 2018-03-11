@@ -15,18 +15,8 @@ using System.Linq;
 class Solution {
 
     static int camelcase(string s) {
-        int wordCounts = 1; // Initial wordcount is 1, for the lowercase string.
-        
-        for(int i = 1; i < s.Length; i++) { // Iterate through the rest of the string.
-            // If the uppercase of our current character is equal to the current character.
-            if(s[i].ToString().ToUpper() == s[i].ToString()) {
-                // Increase the word count.
-                wordCounts++;
-            }
-        }
-        
-        // Finally, return the word count.
-        return wordCounts;
+        // Count all uppercase characters in string, and add 1 for first string.
+        return s.Count(char.IsUpper) + 1;
     }
 
     static void Main(String[] args) {
