@@ -21,60 +21,46 @@ using System.Linq;
 class Solution {
 
     static int twoCharaters(string s) {
-        int maxStringLength = 0; // Stores the longest string with alternating characters.
-        List<char[]> occurringPairs = new List<char[]>(); // Stores all of the possible pairs of characters.
+        int maxStringLength = 0; // Current maxStringLength.
+        List<char> checkedChars = new List<char>(); // All the checked characters.
         
-		
-		// Creating our pairs.
-        for(int i = 0; i < s.Length; i++) { // Iterating until end of string.
-            char c1 = s[i]; // Setting currChar equal to the value at the s[i] index.
-            for(int j = 0; j < s.Length; j++) { // Iterate until end of string again.
-                if(i == j) continue; // Ignoring same index.
+        for(int i = 0; i < s.Length - 1; i++) { // Iterate through the entire string except last character.
+            char c1 = s[i]; // Set current character equal to the value at s[i].
+            
+            if(checkedChars.Contains(c1)) continue; // if it's in the checkedChars list, we can skip this round.
+            
+            for(int j = i + 1; j < s.Length; j++) { // Iterate for the second character.
+                char c2 = s[j]; // Get the second character value.
+                if(c1 == c2) continue; // If it's equal to c1, then we skip this.
                 
-                char c2 = s[j]; // Getting value of second character at s[j] index.
+                string newString = ""; // Create the new string.
                 
-                if(c1 != c2) { // If they're not the same, they can be a pair.
-                    char[] a = new char[] { c1, c2 }; // Create my pair array.
-                    bool canAdd = true; // Flag to check if we can add it.
+                for(int c = 0; c < s.Length; c++) { // Then iterate through the entire string.
+                    if(s[c] != c1 && s[c] != c2) continue; // If current char doesn't match either of our testing chars, then skip.
                     
-                    foreach(var p in occurringPairs) { // Checking all the current pairs in our list.
-                        if((p[0] == c1 && p[1] == c2) || (p[0] == c2 && p[1] == c1)) { // Checking both left and right values of the occurringPair.
-                            canAdd = false; // If their is a similar pair, we can't add this pair, so set the flag as false.
-                            break; // and break.
+                    newString += s[c]; // Otherwise, add it to the new string.
+                    
+                    if(newString.Length > 1) { // Only do this check if the length is more than 1.
+						// If the last two characters of our new string are equal, then this isn't a valid string.
+                        if(newString[newString.Length - 2] == newString[newString.Length - 1]) {
+                            newString = ""; // So we can empty it, and break.
+                            break;
                         }
                     }
                     
-                    if(canAdd) occurringPairs.Add(a); // If we can add it, then put it in the list.
                 }
-            }
-        }
-        
-        // Finally, using our occurringPairs to calculate the longest string.
-        foreach(var p in occurringPairs) { // For each pair.
-            string currString = ""; // Create a new string for this pair.
-            for(int i = 0; i < s.Length; i++) { // Iterate through the entire string.
-                if(s[i] != p[0] && s[i] != p[1]) continue; // If the index of s[i] is equal to either of the values in our pair, then we skip.
                 
-                currString += s[i]; // Otherwise add it to the string.
-            }
-            
-            bool canAdd = true; // A flag to check if we can test it for maxStringLength.
-            
-			// Iterate through entire string again.
-            for(int i = 1; i < currString.Length; i++) {
-				// If the value before i, is the same character, then they're not alternating, so we can't add it.
-                if(currString[i] == currString[i - 1]) {
-                    canAdd = false; // Set the flag.
-                    break; // and break.
+				// If the length is more than the maxStringLength, then we can set the maxStringLength.
+                if(newString.Length > maxStringLength) {
+                    maxStringLength = newString.Length;
                 }
             }
             
-			// Only if the currentstring is longer than the longest found string, and the characters are alternating..
-			// Can we use it as our maxStringLength.
-            if(currString.Length > maxStringLength && canAdd) maxStringLength = currString.Length;
+			// And add our c1 to the checkedChars list.
+            checkedChars.Add(c1);
         }
-        
-		// Finally return our calculated maxStringLength.
+
+		// Finally, return our calculated maxStringLength.
         return maxStringLength;
     }
 
@@ -85,3 +71,4 @@ class Solution {
         Console.WriteLine(result);
     }
 }
+
