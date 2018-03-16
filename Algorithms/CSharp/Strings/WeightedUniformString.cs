@@ -21,8 +21,8 @@ using System.Linq;
  
 class Solution {
 
-	// A dictionary of our calculated weights in the string.
-    static Dictionary<int, int> weights = new Dictionary<int, int>();
+	// A hashset of our calculated weights in the string.
+    static HashSet<int> weights = new HashSet<int>();
     
     private static void GetWeights(string s) {
 		// A character bias, 'a' is character code 97, so we deduct 96, to make it 1.
@@ -38,7 +38,7 @@ class Solution {
             accumulative += s[c] - bias;
             
 			// If the accumulative value isn't in weights, then add it.
-            if(!weights.ContainsKey(accumulative))  weights.Add(accumulative, accumulative);
+            if(!weights.Contains(accumulative))  weights.Add(accumulative);
             
 			// Only do this test if we're not at last character.
             if(c < s.Length - 1) {
@@ -66,7 +66,7 @@ class Solution {
         for(int a0 = 0; a0 < n; a0++){
             int x = Convert.ToInt32(Console.ReadLine());
 			// If the inputted value is in the weights.
-            if(weights.ContainsKey(x)) {
+            if(weights.Contains(x)) {
 				// We can print "Yes".
                 Console.WriteLine("Yes");
                 continue;
